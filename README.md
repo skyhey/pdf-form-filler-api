@@ -110,7 +110,7 @@ result.formName: file name for the PDF file download.
 
 </code></pre>
 <br />
-	See the index.html for a complete example.
+	See the <a href="./www/index.html">index.html</a> for a complete example.
 
 <br /><br />
 <h4>Summary of Steps for API Usage</h4>
