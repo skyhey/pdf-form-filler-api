@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+    <head>     
+     <title>SkyHey example for filling out pdf form</title> 
+
+
+        <script type="text/javascript" src="skyhey-form.js"></script>
+
+
+  
+        <script>
+
+            window.onload = function () {
+
+                //---update elements
+                var update = function (enabled) {
+                    var formGenerate = document.getElementById("formGenerate");
+                    var formDownload = document.getElementById("formDownload");
+
+                    if (enabled) {
+                        formGenerate.innerHTML = "Generate Filled PDF";
+                        formGenerate.disabled = false;
+                    }
+                    else {
+                        formGenerate.innerHTML = "Generating PDF. Please wait...";
+                        formGenerate.disabled = true;
+                    }
+
+                    var v = enabled ? "inline" : "none";
+                    formDownload.style.display = v;
+                };
+
+                //---submit button click event handler
+                var e = document.getElementById("formGenerate");
+                e.onclick = function () {
+
+                    //disable button
+                    update(false);
+                  
+                    //--call api
+
+                    //C#
+                    //var url = "./server/csharp/client_call_forward.aspx";
+                    //php
+                    var url = "./server/php/client_call_forward.php";
+
+                    var formId = document.getElementById("formId").value;
+                    var formName = document.getElementById("formName").value;
+                    var formData = document.getElementById("formData").value;
+                    var options = { url: url, formId: formId, formName: formName, formData: formData };
+
+                    //generate filled pdf
+                    skyheyForm.generateFilledPdf(options, function (result) {
+
+                        //enable button
+                        update(true);
+
+                        //ok
+                        if (result.success) {
+                            //set download link
+                            var e = document.getElementById("formDownload");
+                            e.setAttribute("href", result.url);
+                            e.setAttribute("download", result.formName);
+
+                            //use timer to let UI update not blocked by alert()
+                            setTimeout(function () {
+                                alert("PDF generated. Please click the link below to download");
+                            }, 1000);
+                        }
+                        //error
+                        else {
+                            alert("error");
+                        }
+                    });
+                };
+
+            };
+
+
+        </script>
+     
+
+
+    </head>
+    <body>
+
+        <strong>Example for Filling out PDF Form by API call</strong>
+
+        <br /><br />
+        <label>Form ID: </label>
+        <input id="formId" type="text" value="2" />
+  
+        <br />
+        <label>Generated File Name: </label>
+        <input id="formName" type="text" value="Form1.pdf" />
+  
+         <br />
+        <div>Form Data JSON: </div> 
+        <textarea id="formData" style="height:5em;width:50%;">
+{
+"ShipName":"Larry Smtih",
+"ShipCompany":"XYZ Company, Inc",
+"ShipAddress":"1234 Main Street",
+"ShipAddr2":"Salt Lake City, UT Salt Lake City, UT 84234",
+"BillName":"Larry Smtih",
+"BillCompany":"XYZ Company, Inc",
+"BillAddress":"1234 Main Street",
+"BillAddr2":"Salt Lake City, UT 84234",
+"InvoiceNo":"10099",
+"InvoiceDate":"6/18/2017",
+"CustNo":"XYZ",
+"HiddenNote":"This is a new customer with Promotion Code 10348",
+"PO":"PO9990001",
+"Terms":"Credit Card",
+"ShipVia":"USPO",
+"Desc":"Home Speaker",
+"Qty":"1",
+"UnitPrice":"$259",
+"SH":"$16",
+"Tax":"0",
+"Total":"$275",
+"Paid":"$275",
+"AmountDue":"0",
+"Comment":"White color requested",
+"HiddenComment":"This item is low in inventory with 2 units left"
+}
+
+
+        </textarea>
+ 
+
+        <br /><br />
+        <button id="formGenerate">Generate Filled PDF</button>
+
+
+        <br /><br />
+        <a id="formDownload" href="#" style="display:none">Download PDF</a>
+
+
+
+    </body>
+</html>
