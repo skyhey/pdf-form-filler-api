@@ -11,7 +11,7 @@ SkyHey PDF Form Filler also allows you to manually fill out your PDF forms.
 It is the fastest way to fill out your business forms.
 
 <br /><br />
-<h3><a target="_blank" href="http://skyhey.com" style="font-size:3em;font-weight:bold">SkyHey PDF Form Filler</a></h3>
+<h3><a target="_blank" href="http://skyhey.com">SkyHey PDF Form Filler</a></h3>
 
 <img src="./images/formfiller.png">
 <br /><br />
